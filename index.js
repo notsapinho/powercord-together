@@ -73,7 +73,7 @@ module.exports = class PowercordTogether extends Plugin {
                 })
             );
 
-            return res;
+            return res; 
         });
 
         ChannelContextMenu.default.displayName = "ChannelListVoiceChannelContextMenu";
