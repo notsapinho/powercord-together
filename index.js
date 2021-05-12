@@ -4,12 +4,11 @@ const { inject, uninject } = require("powercord/injector");
 const { Plugin } = require("powercord/entities");
 const { Menu } = require("powercord/components");
 
-const { createInvite, transitionToInvite } = getModule(["createInvite"], false);
+const { startEmbeddedActivity } = getModule(["startEmbeddedActivity"], false);
+const { transitionTo } = getModule(["transitionTo"], false);
+const { Routes } = getModule(["Routes"], false);
 const { getSelfEmbeddedActivityForChannel } = getModule(["getSelfEmbeddedActivityForChannel"], false);
 const { GENERIC_EVENT_EMBEDDED_APPS } = getModule(["GENERIC_EVENT_EMBEDDED_APPS"], false);
-
-const { can } = getModule(["getHighestRole"], false);
-const { Permissions } = getModule(["Permissions"], false);
 
 const knownGames = [
     {
@@ -46,7 +45,7 @@ module.exports = class PowercordTogether extends Plugin {
         inject("powercord-together", ChannelContextMenu, "default", (args, res) => {
             const selectedChannel = args[0].channel;
 
-            if (!selectedChannel || !selectedChannel.guild_id || !can(Permissions.CREATE_INSTANT_INVITE, selectedChannel) || getSelfEmbeddedActivityForChannel(selectedChannel.id)) return res;
+            if (!selectedChannel || !selectedChannel.guild_id || getSelfEmbeddedActivityForChannel(selectedChannel.id)) return res;
 
             const noNamed = [];
 
@@ -109,18 +108,9 @@ module.exports = class PowercordTogether extends Plugin {
             id: game.id,
             label: game.label,
             action: async () => {
-                const invite = await createInvite(selectedChannel.id, {
-                    max_age: 86400,
-                    max_uses: 0,
-                    target_application_id: game.application_id,
-                    target_type: 2,
-                    temporary: false,
-                    validate: null
-                }).catch((e) => null);
+                await startEmbeddedActivity(selectedChannel.id, game.application_id);
 
-                if (!invite) return;
-
-                await transitionToInvite(invite);
+                await transitionTo(Routes.CHANNEL(selectedChannel.guild_id, selectedChannel.id));
             }
         });
     }
