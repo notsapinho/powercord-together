@@ -19,17 +19,19 @@ module.exports = class PowercordTogether extends Plugin {
         inject("powercord-together-rocket", useExperiment, "useExperiment", (args, res) => {
             if (!args[0].guildId) return res;
 
-            if (!res[0]?.enabledApplicationIds?.length) res[0].enabledApplicationIds = ids;
-            if (res[0]?.hasOwnProperty("rtcPanelIconsOnly")) {
+            if (!res[0]?.enabledApplicationIds?.length) {
+                res[0].enabledApplicationIds = ids;
                 res[0].rtcPanelIconsOnly = true;
                 res[0].showDiscordGameTooltips = true;
                 res[0].useNewInviteButton = true;
             }
+
             return res;
         });
     }
 
     pluginWillUnload() {
-        uninject("powercord-together");
+        uninject("powercord-together-region");
+        uninject("powercord-together-rocket");
     }
 };
