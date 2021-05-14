@@ -2,8 +2,8 @@
 
 ---
 
-**⚠️ This games are in discord since 2020, this plugin just activates them without using discord experiments. Enjoy!**
+**⚠️ These games are in discord since 2020. This plugin makes them usable without the use of Discord experiments. Enjoy!**
 
-A plugin that makes easy to watch youtube, play poker and many others games together on discord!
+A plugin that makes it easy to watch YouTube, play Poker and many others games together on Discord!
 
 <img src="https://i.imgur.com/s5y2pEY.gif" align="center" alt="">
