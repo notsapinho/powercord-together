@@ -5,7 +5,7 @@
 **⚠️ Uncompatible with BDPlugin `AutoStartRichPresence` when `RPC Event Injection` is enabled, you can still use it, but your friends can not join the activity.**
 
 <img src="https://i.imgur.com/tBdxVVg.png" alt="">
-*Make sure this is disabled*
+_Make sure this is disabled_
 
 **⚠️ These games are in discord since 2020. This plugin makes them usable without the use of Discord experiments. Enjoy!**
 
