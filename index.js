@@ -3,11 +3,11 @@ const { inject, uninject } = require("powercord/injector");
 
 const { Plugin } = require("powercord/entities");
 
-const { YOUTUBE_APPLICATION_ID, POKER_NIGHT_APPLICATION_ID, FISHINGTON_APPLICATION_ID, END_GAME_APPLICATION_ID } = getModule(["GENERIC_EVENT_EMBEDDED_APPS"], false);
+const { YOUTUBE_APPLICATION_ID, POKER_NIGHT_APPLICATION_ID, FISHINGTON_APPLICATION_ID, END_GAME_APPLICATION_ID, CHESS_IN_THE_PARK_APPLICATION_ID } = getModule(["GENERIC_EVENT_EMBEDDED_APPS"], false);
 const useExperiment = getAllModules(["useExperiment"], false).filter(obj => obj?.definition?.label === "Activities Experiment")[0];
 const getGuild = getModule(["getGuild"], false);
 
-const ids = [YOUTUBE_APPLICATION_ID, POKER_NIGHT_APPLICATION_ID, FISHINGTON_APPLICATION_ID, END_GAME_APPLICATION_ID, "832012586023256104"];
+const ids = [YOUTUBE_APPLICATION_ID, POKER_NIGHT_APPLICATION_ID, FISHINGTON_APPLICATION_ID, END_GAME_APPLICATION_ID, CHESS_IN_THE_PARK_APPLICATION_ID];
 
 module.exports = class PowercordTogether extends Plugin {
     async startPlugin() {
