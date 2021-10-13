@@ -8,10 +8,10 @@ const { WATCH_YOUTUBE_PROD_APP_ID, POKER_NIGHT_APPLICATION_ID, FISHINGTON_APPLIC
 	false
 );
 
+const Activities = getModule(["getEnabledAppIds"], false);
+
 module.exports = class PowercordTogether extends Plugin {
 	async startPlugin() {
-		const Activities = getModule(["getEnabledAppIds"], false);
-
 		inject("powercord-together-ids", Activities.__proto__, "getEnabledAppIds", () => {
 			return [
 				WATCH_YOUTUBE_PROD_APP_ID,
