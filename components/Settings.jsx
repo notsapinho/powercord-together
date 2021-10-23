@@ -13,7 +13,7 @@ module.exports = class Settings extends React.Component {
 					onChange={() => {
 						this.props.toggleSetting("showDev");
 					}}
-					note={"Enables all dev branch of the games discord has to offer."}
+					note={"Enables all dev branch of the games Discord has to offer."}
 					value={this.props.getSetting("showDev", false)}
 				>
 					Enable dev games
@@ -23,7 +23,7 @@ module.exports = class Settings extends React.Component {
 					onChange={() => {
 						this.props.toggleSetting("showUnnamed");
 					}}
-					note={"Enables all the unnamed games discord has to offer."}
+					note={"Enables all the unnamed games Discord has to offer."}
 					value={this.props.getSetting("showUnnamed", false)}
 				>
 					Enable unnamed games
