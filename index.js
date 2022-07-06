@@ -5,25 +5,28 @@ const { inject, uninject } = require("powercord/injector");
 const { Plugin } = require("powercord/entities");
 const Settings = require("./components/Settings");
 
-const Activities = getModule(["getEnabledAppIds"], false);
-
 //Getting shit manually since there aren't in code anymore
 const DATA_MINED_GAMES = {
 	STABLE: {
-		"Watch YouTube": "880218394199220334",
 		"Poker Night": "755827207812677713",
+		"Chess in the Park": "832012774040141894",
+		"Letter League": "879863686565621790",
+		SpellCast: "852509694341283871",
+		"Watch Together:": "880218394199220334",
+		"Checkers in the Park": "832013003968348200",
+		"Word Snacks": "879863976006127627",
+		"Blazing 8s": "832025144389533716",
+		"Doodle Crew": "878067389634314250",
+		"Bobble League": "947957217959759964",
+		"Sketch Heads": "902271654783242291",
+		"Land-io": "903769130790969345",
+		"Putt Party": "945737671223947305"
+	},
+	DISABLED: {
 		"Fishington.io": "814288819477020702",
 		"Betrayal.io": "773336526917861400",
-		"Chess in the Park": "832012774040141894",
-		"Checkers in the Park": "832013003968348200",
-		"Doodle Crew": "878067389634314250",
-		"Sketch Heads": "902271654783242291",
-		"Letter Tile": "879863686565621790",
-		"Word Snacks": "879863976006127627",
 		"Sketchy Artist": "879864070101172255",
-		Awkword: "879863881349087252",
-		SpellCast: "852509694341283871",
-		Ocho: "832025144389533716"
+		Awkword: "879863881349087252"
 	},
 	DEV: {
 		"Old Youtube": "755600276941176913",
@@ -44,25 +47,10 @@ const DATA_MINED_GAMES = {
 		"Fake Artist Dev": "879864104980979792",
 		"Awkword Dev": "879863923543785532",
 		"Decoders Dev": "891001866073296967",
-		"SpellCast Staging": "893449443918086174"
-	},
-	NO_NAME: {
-		"Discord Game 10": "832013108234289153",
-		"Discord Game 11": "832025061657280566",
-		"Discord Game 12": "832025114077298718",
-		"Discord Game 13": "832012854282158180",
-		"Discord Game 14": "832025179659960360",
-		"Discord Game 15": "832025219526033439",
-		"Discord Game 16": "832025249335738428",
-		"Discord Game 17": "832025333930524692",
-		"Discord Game 18": "832025385159622656",
-		"Discord Game 19": "832025431280320532",
-		"Discord Game 20": "832025470685937707",
-		"Discord Game 21": "832025799590281238",
-		"Discord Game 22": "832025857525678142",
-		"Discord Game 23": "832025886030168105",
-		"Discord Game 24": "832025928938946590",
-		"Discord Game 25": "832025993019260929"
+		"SpellCast Staging": "893449443918086174",
+		"Blazing 8s Dev": "832013108234289153",
+		"Blazing 8s Staging": "832025061657280566",
+		"Blazing 8s QA": "832025114077298718"
 	}
 };
 
@@ -80,23 +68,37 @@ module.exports = class PowercordTogether extends Plugin {
 		this.patch();
 	}
 
-	patch() {
-		inject("powercord-together-ids", Activities.__proto__, "getEnabledAppIds", () => {
+	async patch() {
+		const GuildFunctions = getModule(["getGuildPermissionProps"], false);
+		const { USE_EMBEDDED_ACTIVITIES } = getModule(["USE_EMBEDDED_ACTIVITIES"], false);
+
+		inject("powercord-together-permissions", GuildFunctions.__proto__, "can", (args, res) => {
+			if (args[0] === USE_EMBEDDED_ACTIVITIES) return true;
+
+			return res;
+		});
+
+		const BundleFunctions = await getModule(["getBundleItems"]);
+
+		inject("powercord-together-ids", BundleFunctions.__proto__, "getBundleItems", (args, res) => {
 			return [
 				...Object.values(DATA_MINED_GAMES.STABLE),
 				...(this.settings.get("showDev", false) ? Object.values(DATA_MINED_GAMES.DEV) : []),
-				...(this.settings.get("showUnnamed", false) ? Object.values(DATA_MINED_GAMES.NO_NAME) : [])
-			];
-		});
-
-		inject("powercord-together-rocket", Activities.__proto__, "isActivitiesEnabled", () => {
-			return true;
+				...(this.settings.get("showDisabled", false) ? Object.values(DATA_MINED_GAMES.DISABLED) : [])
+			].map((id) => ({
+				application_id: id,
+				expires_on: null,
+				new_until: null,
+				nitro_requirement: false,
+				premium_tier_level: 0
+			}));
 		});
 	}
 
 	pluginWillUnload() {
 		powercord.api.settings.unregisterSettings("powercord-together");
-		uninject("powercord-together-rocket");
+
 		uninject("powercord-together-ids");
+		uninject("powercord-together-permissions");
 	}
 };

@@ -21,12 +21,12 @@ module.exports = class Settings extends React.Component {
 
 				<SwitchItem
 					onChange={() => {
-						this.props.toggleSetting("showUnnamed");
+						this.props.toggleSetting("showDisabled");
 					}}
-					note={"Enables all the unnamed games Discord has to offer."}
-					value={this.props.getSetting("showUnnamed", false)}
+					note={"Enables all the disabled games Discord has to offer."}
+					value={this.props.getSetting("showDisabled", false)}
 				>
-					Enable unnamed games
+					Enable disabled games
 				</SwitchItem>
 			</div>
 		);
