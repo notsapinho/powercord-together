@@ -1,11 +1,10 @@
 # Powercord Together
 
----
-## ⚠️ Disclaimer ⚠️
-**Apparently now discord handles the activities sessions on backend, so, there is no way(apparently) to bypass limitations like games being only available with tier 1 boost.**
+### ⚠️ Disclaimer ⚠️
+
+As it seems discord now handles activities sessions on the backend, meaning that bypassing tier 1/2/3 requirements are not possible. However some activities like **Watch Youtube** will work normally.
 
 ---
-**These games are in discord since 2020. This plugin makes them usable without the use of Discord experiments. Enjoy!**
 
 A plugin that makes it easy to watch YouTube, play Poker and many others games together on Discord!
 
